@@ -19,6 +19,7 @@ class Register extends Component {
         password: '',
         passwordConfirm: '',
         errors: [],
+        loading: true,
     }
 
     handlerChange = (evt) => {
@@ -87,8 +88,13 @@ class Register extends Component {
             })
             .catch(err => {
                 console.error(err);
+                this.setState({ errors: this.state.errors.concat(err), loading: false})
         })
         }
+    }
+
+    handleInput = (errors, inputName) => {
+        return errors.some(el => el.message.toLowerCase().includes(inputName)) ? 'error' : '';
     }
    
     render() {
@@ -98,8 +104,8 @@ class Register extends Component {
                 <Grid.Column style={{
                     maxWidth: 450
                 }}>
-                    <Header as='h2' icon color='orange' textAlign='center'>
-                        <Icon name='comment alternate' color='orange'/>
+                    <Header as='h2' icon color='green' textAlign='center'>
+                        <Icon name='comment alternate' color='green'/>
                         Register for Slack Clone
                     </Header>
                     <Form size='large' onSubmit={this.handleSubmit}>
@@ -112,7 +118,8 @@ class Register extends Component {
                             placeholder='Username'
                             type='text'
                             onChange={this.handlerChange}
-                            value={this.state.username}/>
+                            value={this.state.username}
+                            className={this.handleInput(errors, 'username')}/>
 
                             <Form.Input
                             fluid
@@ -122,7 +129,8 @@ class Register extends Component {
                             placeholder='Email'
                             type='mail'
                             onChange={this.handlerChange}
-                            value={this.state.email}/>
+                            value={this.state.email}
+                            className={this.handleInput(errors, 'email')}/>
 
                             <Form.Input
                             fluid
@@ -132,7 +140,8 @@ class Register extends Component {
                             placeholder='Password'
                             type='password'
                             onChange={this.handlerChange}
-                            value={this.state.password}/>
+                            value={this.state.password}
+                            className={this.handleInput(errors, 'password')}/>
 
                             <Form.Input
                             fluid
@@ -142,9 +151,10 @@ class Register extends Component {
                             placeholder='Password Confirm'
                             type='password'
                             onChange={this.handlerChange}
-                            value={this.state.passwordConfirm}/>
+                            value={this.state.passwordConfirm}
+                            className={this.handleInput(errors, 'passwordConfirm')}/>
 
-                            <Button color='orange' fluid size='large'>
+                            <Button color='green' fluid size='large'>
                                 Submit
                             </Button>
 
