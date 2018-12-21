@@ -188,7 +188,7 @@ class Register extends Component {
 
                         <Message>
                             Already a user?
-                            <NavLink to='login'> Login</NavLink>
+                            <NavLink to='/login'> Login</NavLink>
                         </Message>      
                 </Grid.Column>        
             </Grid>
