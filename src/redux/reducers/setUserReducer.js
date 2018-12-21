@@ -11,6 +11,11 @@ const user = (state = initialUserState, action) => {
             return {
                 currentUser: action.data.currentUser,
                 isLoading: false,
+            };
+        case actionTypes.SIGN_OUT:
+            return {
+                currentUser: null,
+                isLoading: false,
             }
         default: 
             return state;
