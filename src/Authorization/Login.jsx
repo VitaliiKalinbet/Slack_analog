@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import firebase from '../firebase';
-import md5 from 'md5';
 import { NavLink } from 'react-router-dom';
 import {
     Grid,
