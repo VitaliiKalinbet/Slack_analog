@@ -7,7 +7,7 @@ import App from '../App';
 import Login from '../Authorization/Login';
 import Registration from '../Authorization/Register';
 import Spinner from '../Spinner/Spinner';
-;
+
 class Root extends Component {
 
     componentDidMount () {
