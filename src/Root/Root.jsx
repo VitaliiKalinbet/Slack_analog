@@ -7,7 +7,7 @@ import App from '../App';
 import Login from '../Authorization/Login';
 import Registration from '../Authorization/Register';
 import Spinner from '../Spinner/Spinner';
-
+;
 class Root extends Component {
 
     componentDidMount () {
@@ -17,8 +17,9 @@ class Root extends Component {
                 this.props.setUser(user);
                 this.props.history.push('/');
             } else {
-                this.props.signOutUser();
+                
                 this.props.history.push('/login');
+                this.props.signOutUser();
             }
         })
     }
