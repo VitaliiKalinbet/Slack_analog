@@ -6,6 +6,7 @@ import firebase from '../firebase';
 import App from '../App';
 import Login from '../Authorization/Login';
 import Registration from '../Authorization/Register';
+import Spinner from '../Spinner/Spinner';
 
 class Root extends Component {
 
@@ -20,13 +21,19 @@ class Root extends Component {
     }
 
     render() {
-        return (
+        return this.props.isLoading ?
+        <Spinner/> :
             <Switch>
                 <Route exact path='/' component={App}/>
                 <Route path='/login' component={Login}/>
                 <Route path='/registration' component={Registration}/>
-            </Switch>
-        );
+            </Switch>;
+    }
+}
+
+function mapStateToProps (state) {
+    return {
+        isLoading: state.user.isLoading,
     }
 }
 
@@ -38,4 +45,4 @@ function mapDispatchToProps (dispatch) {
     }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(Root));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Root));
