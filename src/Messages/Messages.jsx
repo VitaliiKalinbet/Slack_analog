@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import MessageHeader from '../MessageHeader/MessageHeader';
+import firebase from '../firebase';
 import { Segment, Comment } from 'semantic-ui-react';
-import MessageForm from '../MessageForm/MessageForm';
+import MessageForm from '../MessageForm/MessageForm.jsx';
 
 class Messages extends Component {
+
+    state= {
+        messagesRef: firebase.database().ref('messages'),
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -15,7 +21,7 @@ class Messages extends Component {
                         {/* messages */}
                     </Comment.Group>
                 </Segment>
-                <MessageForm/>
+                <MessageForm messagesRef={this.state.messagesRef}/>
             </React.Fragment>
         );
     }
