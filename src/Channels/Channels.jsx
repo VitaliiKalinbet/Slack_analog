@@ -2,16 +2,19 @@ import React, { Component } from 'react';
 import { Menu, Icon, Modal, Form, Input, Button } from 'semantic-ui-react';
 import firebase from '../firebase';
 import {connect} from 'react-redux';
+import {setCurrentChannel} from '../redux/actions/setCurrentChannelAction';
 import { stat } from 'fs';
 
 class Channels extends Component {
 
     state= {
+        activeChannel: '',
         channels : [],
         modal: false,
         channelName: '',
         channelDetails: '',
         channelsRef: firebase.database().ref('channels'),
+        firstLoad: true,
     }
 
     componentDidMount () {
@@ -25,7 +28,24 @@ class Channels extends Component {
             console.log(loadedChannels);
             this.setState({
                 channels: loadedChannels,
-            })
+            }, () => this.loadFirstChannel()
+            )
+        })
+    }
+
+    showActiveChannel = (channel) => {
+        this.setState({
+            activeChannel: channel.id,
+        })
+    }
+
+    loadFirstChannel = () => {
+        if (this.state.firstLoad && this.state.channels.length > 0) {
+            this.props.setCurrentChannel(this.state.channels[0]);
+            this.showActiveChannel(this.state.channels[0]);
+        }
+        this.setState({
+            firstLoad: false,
         })
     }
 
@@ -84,6 +104,11 @@ class Channels extends Component {
         .catch(err => console.log(err))
     }
 
+    onClickChannelFunc = (channel) => {
+        this.props.setCurrentChannel(channel);
+        this.showActiveChannel(channel);
+    }
+
     render() {
         const {channels, modal} = this.state;
         return (
@@ -99,6 +124,8 @@ class Channels extends Component {
                     key={channel.id}
                     name={channel.name}
                     style={{opacity:0.7}}
+                    onClick={() => this.onClickChannelFunc(channel)}
+                    active = {channel.id === this.state.activeChannel}
                     >
                 # {channel.name}    
                 </Menu.Item>
@@ -144,4 +171,12 @@ const mapStateToProps = state => ({
     user: state.user.currentUser,
 })
 
-export default connect(mapStateToProps)(Channels);
+const mapDispatchToProps = dispatch => {
+    return {
+        setCurrentChannel: function (channel) {
+            dispatch(setCurrentChannel(channel))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Channels);
