@@ -12,7 +12,7 @@ class App extends Component {
       <Grid columns='equal' className='app'>
           <ColorPanel/>
           <SidePanel/>
-        <Grid.Column textAlign='center'>
+        <Grid.Column style={{marginLeft: 320}}>
           <Messages/>
         </Grid.Column>
         <Grid.Column width={4}>
