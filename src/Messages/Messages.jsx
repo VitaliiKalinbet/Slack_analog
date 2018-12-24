@@ -53,7 +53,7 @@ class Messages extends Component {
                         )}
                     </Comment.Group>
                 </Segment>
-                <MessageForm messagesRef={this.state.messagesRef}/>
+                <MessageForm messagesRef={this.state.messagesRef} />
             </React.Fragment>
         );
     }
