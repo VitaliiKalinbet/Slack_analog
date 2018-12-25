@@ -10,6 +10,8 @@ class Messages extends Component {
 
     state= {
         messages: [],
+        filterMessages: [],
+        inputSerch: '',
         messagesRef: firebase.database().ref('messages'),
         loading: true,
         countUser: '',
@@ -46,26 +48,62 @@ class Messages extends Component {
             }
             return acc
         }, [])
-
         this.setState({
             countUser: `${iniqueUsers.length} users`
         })
     }
 
+    serchMessages = () => {
+        if (this.state.inputSerch) {
+            const arr = this.state.messages.filter(item => item.content ? item.content.toLowerCase().includes(this.state.inputSerch.toLowerCase()) : null);
+            this.setState({
+                filterMessages: [...arr],
+            })
+            console.log('this.state.inputSerch work');
+        } else if (this.state.inputSerch === '') {
+            this.setState({
+                filterMessages: [],
+            })
+            console.log('this.state.inputSerch === "" work');
+        }
+    }
+
+    handleMessages = async (e) => {
+        await this.setState({
+            inputSerch: e.target.value,
+        })
+        this.serchMessages()
+     }
+
     render() {
-        const {messages} = this.state;
+        const {messages, filterMessages} = this.state;
         return (
             <React.Fragment>
-                <MessageHeader countUser={this.state.countUser}/>
+                <MessageHeader handleMessages={this.handleMessages} valueInput={this.state.inputSerch} countUser={this.state.countUser}/>
                 <Segment>
                     <Comment.Group
                     className='messages'>
-                        {messages.length > 0 && messages.map(message => <SingleMessage
+                        {filterMessages.length > 0 
+                        ? 
+                            filterMessages.map(message => <SingleMessage
+                            key={message.time}
+                            message={message}
+                            user={message.user}
+                            />)
+                        :
+                            messages.map(message => <SingleMessage
+                            key={message.time}
+                            message={message}
+                            user={message.user}
+                            />)
+                    }
+                    
+                        {/* {messages.length > 0 && messages.map(message => <SingleMessage
                                 key={message.time}
                                 message={message}
                                 user={message.user}
                                 />
-                        )}
+                        )} */}
                     </Comment.Group>
                 </Segment>
                 <MessageForm messagesRef={this.state.messagesRef} />

@@ -3,6 +3,7 @@ import {Segment, Header, Icon, Input} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 
 class MessageHeader extends Component {
+
     render() {
         return (
             <Segment clearing>
@@ -23,7 +24,7 @@ class MessageHeader extends Component {
                 </Header>
                 {/* ChannelSearch Input */}
                 <Header floated='right'>
-                    <Input size='mini' icon='search' name='searchTerm' placeholder='Search'/>
+                    <Input value={this.props.valueInput} onChange={this.props.handleMessages} size='mini' icon='search' name='searchTerm' placeholder='Search'/>
                 </Header>
             </Segment>
         );
