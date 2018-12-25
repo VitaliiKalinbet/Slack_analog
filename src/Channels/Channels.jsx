@@ -3,7 +3,7 @@ import { Menu, Icon, Modal, Form, Input, Button } from 'semantic-ui-react';
 import firebase from '../firebase';
 import {connect} from 'react-redux';
 import {setCurrentChannel} from '../redux/actions/setCurrentChannelAction';
-import { stat } from 'fs';
+// import { stat } from 'fs';
 
 class Channels extends Component {
 
@@ -33,7 +33,7 @@ class Channels extends Component {
         let loadedChannels = [];
         this.state.channelsRef.on('child_added', snap => {
             loadedChannels.push(snap.val())
-            console.log(loadedChannels);
+            // console.log(loadedChannels);
             this.setState({
                 channels: loadedChannels,
             }, () => this.loadFirstChannel()

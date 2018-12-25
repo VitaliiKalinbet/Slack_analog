@@ -9,3 +9,12 @@ html, body, .app {
     overflow-y: scroll;
     min-width: 100%;
 }
+
+.message__self {
+    border-left: 2px solid orange;
+    padding-left: 0.5rem;
+}
+
+.message__image {
+    padding: 1rem;
+}
