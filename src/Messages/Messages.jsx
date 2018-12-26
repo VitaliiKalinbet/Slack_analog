@@ -26,20 +26,55 @@ class Messages extends Component {
         }, 1000)
     }
 
+    componentDidUpdate (prevProps) {
+        if (prevProps.currentChannel && this.props.currentChannel) {
+            // console.log('first');
+            if (prevProps.currentChannel.name !== this.props.currentChannel.name) {
+                // console.log('second');
+                this.addListeners(this.props.currentChannel.id);
+            }
+        }
+    }
+
+    // addListeners = channelId => {
+    //     let loadedMessages = [];
+
+    //     this.state.messagesRef
+    //     .child(channelId)
+    //     .on('child_added', snap => {         
+    //         this.state.
+    //         loadedMessages.push(snap.val())
+    //         this.setState({
+    //             messages: loadedMessages,
+    //             loading: false,
+    //         });
+    //         this.countUnicUsers(loadedMessages)
+    //     })
+
+    // }
+
+
     addListeners = channelId => {
         let loadedMessages = [];
-        this.state.messagesRef
-        .child(channelId)
-        .on('child_added', snap => {
-            loadedMessages.push(snap.val())
-            // console.log(loadedMessages);
+       
+        this.state.messagesRef.child(channelId).on('value', snap => {
+          if (snap.exists()) {
+            this.state.messagesRef.child(channelId).on('child_added', snap => {
+                loadedMessages.push(snap.val())
+                this.setState({
+                  messages: loadedMessages,
+                  loading: false,
+                }, () => this.countUnicUsers(this.state.messages))
+              })
+          } else {
             this.setState({
-                messages: loadedMessages,
-                loading: false,
-            });
-            this.countUnicUsers(loadedMessages)
+                  messages: [],
+                  loading: false,
+                }, () => this.countUnicUsers(this.state.messages))
+          } 
         })
     }
+
 
     countUnicUsers = messages => {
         const iniqueUsers = messages.reduce((acc, el) => {
