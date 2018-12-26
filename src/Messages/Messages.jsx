@@ -53,11 +53,11 @@ class Messages extends Component {
 
     // }
 
-
     addListeners = channelId => {
         let loadedMessages = [];
        
-        this.state.messagesRef.child(channelId).on('value', snap => {
+        this.state.messagesRef.child(channelId).once('value').then(snap => {
+        // this.state.messagesRef.child(channelId).on('value', snap => {
           if (snap.exists()) {
             this.state.messagesRef.child(channelId).on('child_added', snap => {
                 loadedMessages.push(snap.val())
@@ -74,7 +74,6 @@ class Messages extends Component {
           } 
         })
     }
-
 
     countUnicUsers = messages => {
         const iniqueUsers = messages.reduce((acc, el) => {
@@ -124,12 +123,14 @@ class Messages extends Component {
                             key={message.time}
                             message={message}
                             user={message.user}
+                            currentUser={this.props.currentUser}
                             />)
                         :
                             messages.map(message => <SingleMessage
                             key={message.time}
                             message={message}
                             user={message.user}
+                            currentUser={this.props.currentUser}
                             />)
                     }
                     

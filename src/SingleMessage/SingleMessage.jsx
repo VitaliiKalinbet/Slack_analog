@@ -7,10 +7,10 @@ const timeFromNow = time => moment(time).fromNow();
 
 const isImage = message => message.hasOwnProperty('image') && !message.hasOwnProperty('content');
 
-const SingleMessage = ({message, user}) => {
+const SingleMessage = ({message, user, currentUser}) => {
     return (
         <Comment>
-            <Comment.Avatar src={message.user.avatar}/>
+            <Comment.Avatar src={message.user.id === currentUser.uid ? currentUser.photoURL : message.user.avatar}/>
             <Comment.Content className={isOwnMessage(message, user)}>
                 <Comment.Author as='a'>
                     {message.user.name}
