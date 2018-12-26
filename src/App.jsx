@@ -4,12 +4,13 @@ import ColorPanel from './ColorPanel/ColorPanel';
 import SidePanel from './SidePanel/SidePanel';
 import Messages from './Messages/Messages';
 import MetaPanel from './MetaPanel/MetaPanel';
+import { connect } from 'react-redux';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <Grid columns='equal' className='app'>
+      <Grid columns='equal' className='app' style={{ background: this.props.color.secondaryColor}}>
           <ColorPanel/>
           <SidePanel/>
         <Grid.Column style={{marginLeft: 320}}>
@@ -23,4 +24,10 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps (state) {
+    return {
+        color: state.color,
+    }
+}
+
+export default connect(mapStateToProps)(App);
